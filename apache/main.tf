@@ -4,7 +4,7 @@ provider "aws" {
   secret_key = "9j9pT16JHDsOmJ/pHZxbSP0dChpW09Xgf+O7Uktr"
   region     = "us-east-1"
 }
-
+/*
 
 # Get the AWS Ubuntu image
 data "aws_ami" "ubuntu" {
@@ -20,14 +20,16 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+*/
+
 # Create security group with web and ssh access
 resource "aws_security_group" "web_server" {
   name = "web_server"
 
   ingress {
     protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
+    from_port   = 443
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -54,7 +56,7 @@ resource "aws_key_pair" "deployer" {
 
 # Create web server
 resource "aws_instance" "web_server" {
-    ami = "${data.aws_ami.ubuntu.id}"
+    ami = "ami-26950f4f"
     vpc_security_group_ids = ["${aws_security_group.web_server.id}"]
     instance_type = "t2.micro"
     key_name      = "web_server"
